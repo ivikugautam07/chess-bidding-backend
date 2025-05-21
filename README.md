@@ -49,48 +49,47 @@ backend/
 
 ---
 
-## ⚙️ Setup Instructions
+# ⚙️ Setup Instructions
 
-### 1. Clone the repo
+## 1. Clone the repo
 
 ```bash
 git clone https://github.com/your-username/chess-bidding-backend.git
 cd chess-bidding-backend
-
-### ✅ Step 2: Install dependencies
-```bash
+2. Install dependencies
+bash
+Copy
+Edit
 npm install
+3. Set up your environment
+Create a .env file in the root directory and add the following environment variables:
 
-### ✅ Step 3: Set up your environment
-
-Create a .env file in the root and add your environment variables:
-```ini
+ini
+Copy
+Edit
 DATABASE_URL=postgresql://user:password@localhost:5432/chessdb
 JWT_SECRET=your_jwt_secret
-
-### ✅ Step 4: Run database migrations
-
-```bash
+4. Run database migrations
+bash
+Copy
+Edit
 npx prisma migrate dev
-
-### ✅ Step 5: Run database migrations
-```bash 
-npx prisma migrate dev
-
-### ✅ Step 6: Start the Server
+5. Start the server
+bash
+Copy
+Edit
 npm run start:dev
-
 The API will be available at:
 http://localhost:3000
 
 Swagger Docs:
 http://localhost:3000/api
 
-🧪 Running Tests
-
-```bash
+6. Running Tests
+bash
+Copy
+Edit
 npm run test
-
 🧾 API Reference
 Visit: http://localhost:3000/api
 Generated with Swagger – includes all endpoints and models.
@@ -98,10 +97,9 @@ Generated with Swagger – includes all endpoints and models.
 👨‍💻 Contributing
 See CONTRIBUTING.md for contribution guidelines.
 
-👨‍💻 Author
+👤 Author
 Vikash Gautam
 GitHub: @ivikugautam07
-
 
 📜 License
 This project is licensed under the MIT License.
@@ -109,3 +107,6 @@ This project is licensed under the MIT License.
 🌐 Related Repositories
 Frontend (Next.js)
 
+yaml
+Copy
+Edit
