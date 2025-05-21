@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  balance   Float    @default(0.0)
+  createdAt DateTime @default(now())
+
+  gamesAsWhite  Game[] @relation("WhitePlayer")
+  gamesAsBlack  Game[] @relation("BlackPlayer")
+  gamesAsWinner Game[] @relation("Winner")
+
+  moves        Move[]
+  predictions  Prediction[]
+  transactions Transaction[]
+
+  bids Bid[] // ✅ Added: back-relation to Bid
+}
+
+model Game {
+  id            Int  @id @default(autoincrement())
+  whitePlayerId Int
+  blackPlayerId Int
+  winnerId      Int?
+
+  whitePlayer User  @relation("WhitePlayer", fields: [whitePlayerId], references: [id])
+  blackPlayer User  @relation("BlackPlayer", fields: [blackPlayerId], references: [id])
+  winner      User? @relation("Winner", fields: [winnerId], references: [id])
+
+  status      String
+  moves       Move[]
+  predictions Prediction[]
+
+  bids Bid[] // ✅ Added: back-relation to Bid
+}
+
+model Move {
+  id         Int    @id @default(autoincrement())
+  gameId     Int
+  byUserId   Int
+  from       String
+  to         String
+  san        String
+  moveNumber Int
+
+  game   Game  @relation(fields: [gameId], references: [id])
+  player User  @relation(fields: [byUserId], references: [id])
+  predictions Prediction[] @relation("MovePredictions")
+}
+
+model Prediction {
+  id     Int @id @default(autoincrement())
+  gameId Int
+  moveId Int // ✅ foreign key to Move
+
+  game   Game  @relation(fields: [gameId], references: [id])
+  move   Move  @relation(fields: [moveId], references: [id]) // ✅ back relation
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  amount    Float
+  type      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Bid {
+  id        Int      @id @default(autoincrement())
+  gameId    Int
+  userId    Int
+  moveIndex Int
+  amount    Int
+  createdAt DateTime @default(now())
+
+  game Game @relation(fields: [gameId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
